@@ -19,14 +19,14 @@ npm.cmd ci && npx.cmd prisma generate && npm.cmd test -- --runInBand
 
 환경변수: `backend/.env.example` 참고 (`TOSS_SECRET_KEY`, `TOSS_CLIENT_KEY`는 Render에만 설정)
 
-## Mission 8 제출 상태
+## Mission 8 제출 링크
 
-| 항목 | 상태 |
+| 항목 | URL / 상태 |
 |---|---|
-| 로컬 구현·테스트 | PASS |
-| GitHub public push | BLOCKED (gh CLI 없음) |
-| Vercel/Render 배포 | BLOCKED (호스팅 인증 필요) |
-| Toss sandbox E2E | NOT RUN (테스트 키 필요) |
+| GitHub (Public) | https://github.com/magus81818-bit/ordospace-mission8 |
+| Vercel Production | https://ordospace-mission8.vercel.app |
+| Render API | 신규 `ordospace-mission8-api` — Render 로그인 후 Blueprint 배포 필요 |
+| Toss sandbox E2E | NOT RUN — `TOSS_CLIENT_KEY` / `TOSS_SECRET_KEY` (test) 필요 |
 
 ---
 
