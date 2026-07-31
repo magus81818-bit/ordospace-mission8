@@ -1,20 +1,18 @@
-# Round 5 결과 (갱신)
+﻿# Round 5 결과 (최종 갱신)
 
-## 상태: PARTIAL → 제출 가능 범위까지 완료, Render/Toss만 외부 로그인·키 필요
+## 상태: PARTIAL — 배포·API·프론트 연결 완료, Toss sandbox E2E만 키 대기
 
 ## DONE
-- Public GitHub: https://github.com/magus81818-bit/ordospace-mission8
-- Vercel Production: https://ordospace-mission8.vercel.app
-- tag `mission8-submission`
-- 격리 로컬 DB `ordospace_mission8` migrate+seed
-- 로컬 API 결제 주문/권한/금액검증 smoke
-- 기존 ORDOSPACE Vercel/Git 미변경
+- GitHub: https://github.com/magus81818-bit/ordospace-mission8
+- Vercel: https://ordospace-mission8.vercel.app
+- Render DB: `ordospace-mission8-db` (singapore, free)
+- Render API: https://ordospace-mission8-api.onrender.com (`/api/health` 200)
+- migrate + seed 완료 (demo 계정)
+- CLIENT 주문 생성 ₩49,000 PASS (deployed)
+- 기존 ORDOSPACE 리소스 미변경
 
-## NEEDS USER
-1. Render Dashboard 로그인 → Blueprint(`backend/render.yaml`)로 `ordospace-mission8-db` + `ordospace-mission8-api` 생성
-2. Render env에 Toss **test** `TOSS_CLIENT_KEY` / `TOSS_SECRET_KEY` + `CORS_ORIGIN=https://ordospace-mission8.vercel.app`
-3. `index.html` meta `ordo-api-base`에 새 Render URL 반영 후 Vercel 재배포
+## NOT RUN
+- Toss sandbox 결제창/승인 E2E — `TOSS_CLIENT_KEY` / `TOSS_SECRET_KEY` (test) 필요
 
-## NOT RUN (사실대로)
-- Toss sandbox E2E
-- Render health (서비스 미생성)
+## 사용자 조치
+Render Dashboard → `ordospace-mission8-api` → Environment에 테스트 키 2개만 설정 후 재배포(또는 자동 재시작).
