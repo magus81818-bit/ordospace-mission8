@@ -1,0 +1,14 @@
+{
+  "name": "ordospace-redo-r02-audit",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "generate": "node generate-audit.cjs",
+    "audit:salesops": "node salesops-live-audit.cjs",
+    "audit:ordospace": "node ordospace-unchanged-audit.cjs",
+    "validate": "node validate.cjs"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.55.0"
+  }
+}

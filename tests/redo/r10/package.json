@@ -1,0 +1,13 @@
+{
+  "name": "ordospace-redo-r10-release-audit",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "generate:premerge": "node generate-premerge.cjs",
+    "validate:premerge": "node validate-premerge.cjs",
+    "production:smoke": "node ../r04/node_modules/@playwright/test/cli.js test -c playwright.production.config.cjs",
+    "production:parity": "node generate-production-parity.cjs",
+    "generate:final": "node generate-final.cjs",
+    "validate:final": "node validate-final.cjs"
+  }
+}

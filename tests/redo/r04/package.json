@@ -1,0 +1,16 @@
+{
+  "name": "ordospace-redo-r04-audit",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "audit": "playwright test --config playwright.config.cjs",
+    "validate": "playwright test --config playwright.config.cjs && node validate.cjs"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.55.0",
+    "pixelmatch": "^7.1.0",
+    "pngjs": "^7.0.0"
+  }
+}
+
+

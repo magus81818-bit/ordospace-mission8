@@ -1,0 +1,52 @@
+/* Round 7: SalesOps visual grammar for Client body screens only. */
+body.auth-on :is(#screen-dashboard, #screen-project, #screen-approvals) {
+  --ordo-client-surface: var(--ordo-so-bg-surface);
+  --ordo-client-surface-subtle: var(--ordo-so-bg-surface-secondary);
+  --ordo-client-border: var(--ordo-so-border-default);
+  --ordo-client-border-strong: var(--ordo-so-border-strong);
+  --ordo-client-accent: var(--ordo-so-text-accent);
+  color: var(--ordo-so-text-primary);
+  overflow-wrap: anywhere;
+}
+body.auth-on :is(#screen-dashboard, #screen-project, #screen-approvals) > div:first-child > header { border-bottom: 1px solid var(--ordo-so-border-subtle); padding-bottom: var(--ordo-c-padding-md); }
+body.auth-on :is(#screen-dashboard, #screen-project, #screen-approvals) h1 { color: var(--ordo-so-text-primary); font-size: var(--ordo-so-type-page-size); line-height: var(--ordo-so-type-page-line); font-weight: var(--ordo-so-type-page-weight); letter-spacing: -0.02em; }
+body.auth-on :is(#screen-dashboard, #screen-project, #screen-approvals) :where(h2, h3, h4) { color: var(--ordo-so-text-primary); }
+body.auth-on :is(#screen-dashboard, #screen-project, #screen-approvals) :where(.ordo-client-surface, .ordo-c-kpi-card, .ordo-c-list-detail, .ordo-c-detail-section, .ordo-client-step-card) { border-color: var(--ordo-client-border); background: var(--ordo-client-surface); color: var(--ordo-so-text-primary); box-shadow: var(--ordo-so-shadow-surface); }
+body.auth-on #screen-dashboard .ordo-c-kpi-card { min-width: 0; padding: var(--ordo-so-card-padding-compact); border-radius: var(--ordo-so-radius-card); transition: var(--ordo-so-state-default-transition); }
+body.auth-on #screen-dashboard :where(.ordo-c-kpi-card, #clientDashboardApprovalCards .ordo-c-module-card):hover { border-color: var(--ordo-client-border-strong); background: var(--ordo-so-bg-hover); box-shadow: var(--ordo-so-shadow-surface); }
+body.auth-on :is(#screen-dashboard, #screen-project) .ordo-client-step-grid { gap: var(--ordo-c-gap-sm); }
+body.auth-on :is(#screen-dashboard, #screen-project) .ordo-client-step-card { min-width: 0; border-radius: var(--ordo-so-radius-card); transition: var(--ordo-so-state-default-transition); }
+body.auth-on :is(#screen-dashboard, #screen-project) .ordo-client-step-card[data-state='complete'] { border-color: var(--ordo-client-border); background: var(--ordo-client-surface); }
+body.auth-on :is(#screen-dashboard, #screen-project) .ordo-client-step-card[data-state='current'] { border-color: var(--ordo-client-border-strong); background: var(--ordo-so-bg-selected); }
+body.auth-on :is(#screen-dashboard, #screen-project) .ordo-client-step-card[data-state='pending'] { border-color: var(--ordo-so-border-subtle); background: var(--ordo-client-surface-subtle); }
+body.auth-on :is(#screen-dashboard, #screen-project) .progress-track { background: var(--ordo-so-bg-surface-muted); }
+body.auth-on :is(#screen-dashboard, #screen-project) .progress-fill { background: var(--ordo-client-accent); }
+body.auth-on #screen-project [data-project-tab] { border-color: transparent; color: var(--ordo-so-text-muted); transition: var(--ordo-so-state-default-transition); }
+body.auth-on #screen-project [data-project-tab]:hover { color: var(--ordo-so-text-primary); background: var(--ordo-so-bg-hover); }
+body.auth-on #screen-project [data-project-tab][aria-selected='true'] { border-bottom-color: var(--ordo-so-text-primary); color: var(--ordo-so-text-primary); background: transparent; }
+body.auth-on #screen-project [data-project-chain-filter] { border: 1px solid var(--ordo-client-border); background: var(--ordo-client-surface); color: var(--ordo-so-text-secondary); transition: var(--ordo-so-state-default-transition); }
+body.auth-on #screen-project [data-project-chain-filter]:hover { border-color: var(--ordo-client-border-strong); background: var(--ordo-so-bg-hover); color: var(--ordo-so-text-primary); }
+body.auth-on #screen-project [data-project-chain-filter][aria-pressed='true'] { border-color: var(--ordo-client-border-strong); background: var(--ordo-so-bg-selected); color: var(--ordo-so-text-primary); }
+body.auth-on #screen-project .ordo-client-timeline-step { position: relative; padding-inline-start: var(--ordo-c-padding-md); border-inline-start: 1px solid var(--ordo-so-chart-grid); }
+body.auth-on #screen-project .ordo-client-gate-row { color: var(--ordo-so-text-secondary); }
+body.auth-on #screen-project :where([data-project-card-id], .ordo-c-module-card) { border-color: var(--ordo-client-border); background: var(--ordo-client-surface); }
+body.auth-on #screen-project #clientProjectArtifacts { border-color: var(--ordo-client-border); background: var(--ordo-client-surface); }
+body.auth-on #screen-project .ordo-client-asset-row { background: var(--ordo-client-surface); color: var(--ordo-so-text-primary); transition: var(--ordo-so-state-default-transition); }
+body.auth-on #screen-project .ordo-client-asset-row:hover { background: var(--ordo-so-bg-hover); }
+body.auth-on #screen-project #cardDetailModal { background: var(--ordo-so-overlay-backdrop); }
+body.auth-on #screen-project #cardDetailModal [role='dialog'] { border-color: var(--ordo-so-overlay-border); border-radius: var(--ordo-so-radius-overlay); background: var(--ordo-so-overlay-surface); color: var(--ordo-so-text-primary); box-shadow: var(--ordo-so-overlay-shadow); }
+body.auth-on #screen-approvals .ordo-c-list-detail > aside,
+body.auth-on #screen-approvals .ordo-c-list-detail > aside > div,
+body.auth-on #screen-approvals #clientApprovalDetail { border-color: var(--ordo-client-border); background: var(--ordo-client-surface); }
+body.auth-on #screen-approvals [data-approval-card] { border-inline-start: 0; background: var(--ordo-client-surface); color: var(--ordo-so-text-primary); transition: var(--ordo-so-state-default-transition); }
+body.auth-on #screen-approvals [data-approval-card]:hover { background: var(--ordo-so-bg-hover); }
+body.auth-on #screen-approvals [data-approval-card][aria-pressed='true'] { background: var(--ordo-so-bg-selected); }
+body.auth-on #screen-approvals .ordo-c-action-toolbar { border-color: var(--ordo-client-border); background: var(--ordo-client-surface-subtle); }
+body.auth-on :is(#screen-dashboard, #screen-project, #screen-approvals) :where(a, button, select, [tabindex='0']):focus-visible { outline: 2px solid var(--ordo-so-border-focus); outline-offset: 2px; box-shadow: var(--ordo-so-shadow-focus); }
+@media (max-width: 767px) {
+  body.auth-on :is(#screen-dashboard, #screen-project) .ordo-client-step-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body.auth-on #screen-project #cardDetailModal { padding: var(--ordo-c-padding-sm); }
+  body.auth-on #screen-project #cardDetailModal [role='dialog'] { max-height: calc(100vh - 1rem); overflow-y: auto; }
+  body.auth-on #screen-approvals .ordo-c-list-detail { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { body.auth-on :is(#screen-dashboard, #screen-project, #screen-approvals) * { scroll-behavior: auto; transition-duration: 0.01ms; animation-duration: 0.01ms; } }

@@ -1,0 +1,371 @@
+/*
+ * ORDOSPACE authenticated dashboard foundation — SalesOps token migration.
+ * Round 3 scope: UI-010, UI-011, UI-012 plus shared semantic foundations.
+ * Public/auth surfaces remain outside body.auth-on and cannot inherit this layer.
+ */
+
+body.auth-on {
+  /* Background and surface */
+  --ordo-so-bg-dashboard: oklch(0.115 0.006 255);
+  --ordo-so-bg-sidebar: oklch(0.13 0.006 255);
+  --ordo-so-bg-header: oklch(0.145 0.006 255 / 0.96);
+  --ordo-so-bg-surface: oklch(0.145 0.006 255);
+  --ordo-so-bg-surface-secondary: oklch(0.165 0.006 255);
+  --ordo-so-bg-surface-muted: oklch(0.19 0.006 255);
+  --ordo-so-bg-surface-elevated: oklch(0.18 0.006 255);
+  --ordo-so-bg-overlay: oklch(0.145 0.006 255 / 0.98);
+  --ordo-so-bg-hover: oklch(0.19 0.006 255);
+  --ordo-so-bg-selected: oklch(0.195 0.007 255);
+  --ordo-so-bg-disabled: oklch(0.16 0.006 255);
+
+  /* Text */
+  --ordo-so-text-primary: oklch(0.91 0.004 255);
+  --ordo-so-text-secondary: oklch(0.7 0.004 255);
+  --ordo-so-text-muted: oklch(0.6 0.004 255);
+  --ordo-so-text-inverse: oklch(0.12 0.006 255);
+  --ordo-so-text-accent: oklch(0.73 0.15 145);
+  --ordo-so-text-success: oklch(0.73 0.15 145);
+  --ordo-so-text-warning: oklch(0.76 0.14 65);
+  --ordo-so-text-critical: oklch(0.69 0.17 25);
+  --ordo-so-text-informational: oklch(0.7 0.12 220);
+  --ordo-so-text-disabled: oklch(0.48 0.004 255);
+  --ordo-so-text-link: oklch(0.72 0.11 220);
+  --ordo-so-text-link-hover: oklch(0.8 0.09 220);
+
+  /* Border and divider */
+  --ordo-so-border-default: oklch(0.235 0.006 255);
+  --ordo-so-border-subtle: oklch(0.195 0.006 255);
+  --ordo-so-border-strong: oklch(0.31 0.007 255);
+  --ordo-so-border-interactive: oklch(0.35 0.008 255);
+  --ordo-so-border-focus: oklch(0.68 0.01 255);
+  --ordo-so-border-selected: oklch(0.33 0.008 255);
+  --ordo-so-border-error: oklch(0.62 0.16 25);
+  --ordo-so-border-divider: oklch(0.22 0.006 255);
+  --ordo-so-border-overlay: oklch(0.29 0.008 255);
+
+  /* ORDOSPACE lifecycle tones — meanings remain unchanged. */
+  --ordo-so-tone-neutral-fg: oklch(0.67 0.004 255);
+  --ordo-so-tone-neutral-bg: var(--ordo-so-bg-surface-secondary);
+  --ordo-so-tone-neutral-border: var(--ordo-so-border-default);
+  --ordo-so-tone-informational-fg: oklch(0.7 0.12 220);
+  --ordo-so-tone-informational-bg: oklch(0.18 0.018 220);
+  --ordo-so-tone-informational-border: oklch(0.34 0.045 220);
+  --ordo-so-tone-pending-fg: oklch(0.7 0.12 220);
+  --ordo-so-tone-pending-bg: oklch(0.18 0.018 220);
+  --ordo-so-tone-pending-border: oklch(0.34 0.045 220);
+  --ordo-so-tone-warning-fg: oklch(0.76 0.14 65);
+  --ordo-so-tone-warning-bg: oklch(0.18 0.018 65);
+  --ordo-so-tone-warning-border: oklch(0.36 0.055 65);
+  --ordo-so-tone-success-fg: oklch(0.73 0.15 145);
+  --ordo-so-tone-success-bg: var(--ordo-so-bg-surface-secondary);
+  --ordo-so-tone-success-border: var(--ordo-so-border-default);
+  --ordo-so-tone-critical-fg: oklch(0.69 0.17 25);
+  --ordo-so-tone-critical-bg: oklch(0.18 0.018 25);
+  --ordo-so-tone-critical-border: oklch(0.36 0.055 25);
+  --ordo-so-tone-disabled-fg: oklch(0.5 0.004 255);
+  --ordo-so-tone-disabled-bg: var(--ordo-so-bg-surface-secondary);
+  --ordo-so-tone-disabled-border: var(--ordo-so-border-subtle);
+
+  /* Typography — local/system fallback only; no font download is introduced. */
+  --ordo-so-font-sans: 'DM Sans', 'Pretendard Variable', Pretendard, Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ordo-so-font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  --ordo-so-type-page-size: 1.25rem;
+  --ordo-so-type-page-line: 1.75rem;
+  --ordo-so-type-page-weight: 600;
+  --ordo-so-type-section-size: 1.25rem;
+  --ordo-so-type-section-line: 1.75rem;
+  --ordo-so-type-section-weight: 600;
+  --ordo-so-type-card-size: 0.875rem;
+  --ordo-so-type-card-line: 1.25rem;
+  --ordo-so-type-card-weight: 600;
+  --ordo-so-type-metric-size: 1.875rem;
+  --ordo-so-type-metric-line: 2.25rem;
+  --ordo-so-type-metric-weight: 700;
+  --ordo-so-type-body-size: 0.875rem;
+  --ordo-so-type-body-line: 1.25rem;
+  --ordo-so-type-body-weight: 400;
+  --ordo-so-type-label-size: 0.875rem;
+  --ordo-so-type-label-line: 1.25rem;
+  --ordo-so-type-label-weight: 500;
+  --ordo-so-type-caption-size: 0.75rem;
+  --ordo-so-type-caption-line: 1rem;
+  --ordo-so-type-caption-weight: 400;
+  --ordo-so-type-button-size: 0.875rem;
+  --ordo-so-type-button-weight: 500;
+  --ordo-so-type-table-size: 0.875rem;
+  --ordo-so-type-table-line: 1.25rem;
+  --ordo-so-type-badge-size: 0.75rem;
+  --ordo-so-type-badge-weight: 500;
+
+  /* Radius */
+  --ordo-so-radius-none: 0;
+  --ordo-so-radius-xs: 0.25rem;
+  --ordo-so-radius-sm: 0.375rem;
+  --ordo-so-radius-md: 0.5rem;
+  --ordo-so-radius-lg: 0.625rem;
+  --ordo-so-radius-card: 0.75rem;
+  --ordo-so-radius-control: 0.375rem;
+  --ordo-so-radius-pill: 9999px;
+  --ordo-so-radius-overlay: 0.75rem;
+
+  /* Shadow — border-led elevation */
+  --ordo-so-shadow-none: none;
+  --ordo-so-shadow-surface: 0 1px 1px oklch(0 0 0 / 0.16);
+  --ordo-so-shadow-raised: 0 4px 14px oklch(0 0 0 / 0.2);
+  --ordo-so-shadow-overlay: 0 18px 48px oklch(0 0 0 / 0.38);
+  --ordo-so-shadow-focus: 0 0 0 2px oklch(0.72 0.01 255 / 0.22);
+
+  /* Geometry and density — reserved; Round 3 does not change layout. */
+  --ordo-so-control-height-sm: 2rem;
+  --ordo-so-control-height-md: 2.25rem;
+  --ordo-so-control-height-lg: 2.5rem;
+  --ordo-so-icon-size-sm: 1rem;
+  --ordo-so-icon-size-md: 1.25rem;
+  --ordo-so-card-padding-compact: 1.25rem;
+  --ordo-so-card-padding-standard: 1.5rem;
+  --ordo-so-content-gap: 1.5rem;
+  --ordo-so-section-gap: 1.5rem;
+  --ordo-so-row-height-compact: 2.5rem;
+  --ordo-so-row-height-standard: 4rem;
+  --ordo-so-overlay-padding: 1.5rem;
+  --ordo-so-chart-gap: 1rem;
+
+  /* Interaction foundations */
+  --ordo-so-transition-fast: 160ms ease;
+  --ordo-so-transition-standard: 300ms ease-out;
+  --ordo-so-transition-emphasis: 500ms ease-out;
+  --ordo-so-state-default-bg: var(--ordo-so-bg-surface);
+  --ordo-so-state-default-fg: var(--ordo-so-text-primary);
+  --ordo-so-state-default-border: var(--ordo-so-border-default);
+  --ordo-so-state-default-ring: none;
+  --ordo-so-state-default-opacity: 1;
+  --ordo-so-state-default-cursor: auto;
+  --ordo-so-state-default-transition: background-color var(--ordo-so-transition-fast), border-color var(--ordo-so-transition-fast), color var(--ordo-so-transition-fast);
+  --ordo-so-state-hover-bg: var(--ordo-so-bg-hover);
+  --ordo-so-state-hover-fg: var(--ordo-so-text-primary);
+  --ordo-so-state-hover-border: var(--ordo-so-border-interactive);
+  --ordo-so-state-hover-ring: none;
+  --ordo-so-state-hover-opacity: 1;
+  --ordo-so-state-hover-cursor: pointer;
+  --ordo-so-state-hover-transition: var(--ordo-so-state-default-transition);
+  --ordo-so-state-focus-visible-bg: var(--ordo-so-bg-surface);
+  --ordo-so-state-focus-visible-fg: var(--ordo-so-text-primary);
+  --ordo-so-state-focus-visible-border: var(--ordo-so-border-focus);
+  --ordo-so-state-focus-visible-ring: var(--ordo-so-shadow-focus);
+  --ordo-so-state-focus-visible-opacity: 1;
+  --ordo-so-state-focus-visible-cursor: auto;
+  --ordo-so-state-focus-visible-transition: var(--ordo-so-state-default-transition);
+  --ordo-so-state-active-bg: var(--ordo-so-bg-selected);
+  --ordo-so-state-active-fg: var(--ordo-so-text-primary);
+  --ordo-so-state-active-border: var(--ordo-so-border-selected);
+  --ordo-so-state-active-ring: none;
+  --ordo-so-state-active-opacity: 1;
+  --ordo-so-state-active-cursor: pointer;
+  --ordo-so-state-active-transition: var(--ordo-so-state-default-transition);
+  --ordo-so-state-selected-bg: var(--ordo-so-bg-selected);
+  --ordo-so-state-selected-fg: var(--ordo-so-text-primary);
+  --ordo-so-state-selected-border: var(--ordo-so-border-selected);
+  --ordo-so-state-selected-ring: none;
+  --ordo-so-state-selected-opacity: 1;
+  --ordo-so-state-selected-cursor: pointer;
+  --ordo-so-state-selected-transition: var(--ordo-so-state-default-transition);
+  --ordo-so-state-disabled-bg: var(--ordo-so-bg-disabled);
+  --ordo-so-state-disabled-fg: var(--ordo-so-text-disabled);
+  --ordo-so-state-disabled-border: var(--ordo-so-border-subtle);
+  --ordo-so-state-disabled-ring: none;
+  --ordo-so-state-disabled-opacity: 0.5;
+  --ordo-so-state-disabled-cursor: not-allowed;
+  --ordo-so-state-disabled-transition: none;
+  --ordo-so-state-loading-bg: var(--ordo-so-bg-surface-muted);
+  --ordo-so-state-loading-fg: var(--ordo-so-text-muted);
+  --ordo-so-state-loading-border: var(--ordo-so-border-default);
+  --ordo-so-state-loading-ring: none;
+  --ordo-so-state-loading-opacity: 0.72;
+  --ordo-so-state-loading-cursor: progress;
+  --ordo-so-state-loading-transition: var(--ordo-so-state-default-transition);
+  --ordo-so-state-skeleton-bg: linear-gradient(90deg, var(--ordo-so-bg-surface-muted), var(--ordo-so-bg-surface-elevated), var(--ordo-so-bg-surface-muted));
+  --ordo-so-state-skeleton-fg: transparent;
+  --ordo-so-state-skeleton-border: transparent;
+  --ordo-so-state-skeleton-ring: none;
+  --ordo-so-state-skeleton-opacity: 0.72;
+  --ordo-so-state-skeleton-cursor: wait;
+  --ordo-so-state-skeleton-transition: background-position var(--ordo-so-transition-emphasis);
+  --ordo-so-state-empty-bg: var(--ordo-so-bg-surface-secondary);
+  --ordo-so-state-empty-fg: var(--ordo-so-text-muted);
+  --ordo-so-state-empty-border: var(--ordo-so-border-subtle);
+  --ordo-so-state-empty-ring: none;
+  --ordo-so-state-empty-opacity: 1;
+  --ordo-so-state-empty-cursor: default;
+  --ordo-so-state-empty-transition: none;
+  --ordo-so-state-error-bg: var(--ordo-so-tone-critical-bg);
+  --ordo-so-state-error-fg: var(--ordo-so-tone-critical-fg);
+  --ordo-so-state-error-border: var(--ordo-so-tone-critical-border);
+  --ordo-so-state-error-ring: 0 0 0 3px oklch(0.65 0.2 25 / 0.2);
+  --ordo-so-state-error-opacity: 1;
+  --ordo-so-state-error-cursor: default;
+  --ordo-so-state-error-transition: var(--ordo-so-state-default-transition);
+  --ordo-so-state-success-bg: var(--ordo-so-tone-success-bg);
+  --ordo-so-state-success-fg: var(--ordo-so-tone-success-fg);
+  --ordo-so-state-success-border: var(--ordo-so-tone-success-border);
+  --ordo-so-state-success-ring: none;
+  --ordo-so-state-success-opacity: 1;
+  --ordo-so-state-success-cursor: default;
+  --ordo-so-state-success-transition: var(--ordo-so-state-default-transition);
+  --ordo-so-state-validation-error-bg: var(--ordo-so-tone-critical-bg);
+  --ordo-so-state-validation-error-fg: var(--ordo-so-tone-critical-fg);
+  --ordo-so-state-validation-error-border: var(--ordo-so-border-error);
+  --ordo-so-state-validation-error-ring: var(--ordo-so-state-error-ring);
+  --ordo-so-state-validation-error-opacity: 1;
+  --ordo-so-state-validation-error-cursor: text;
+  --ordo-so-state-validation-error-transition: var(--ordo-so-state-default-transition);
+
+  /* Chart */
+  --ordo-so-chart-1: oklch(0.7 0.18 220);
+  --ordo-so-chart-2: oklch(0.68 0.13 145);
+  --ordo-so-chart-3: oklch(0.75 0.18 55);
+  --ordo-so-chart-4: oklch(0.65 0.2 25);
+  --ordo-so-chart-5: oklch(0.7 0.15 300);
+  --ordo-so-chart-axis: var(--ordo-so-text-muted);
+  --ordo-so-chart-grid: var(--ordo-so-border-divider);
+  --ordo-so-chart-legend: var(--ordo-so-text-secondary);
+  --ordo-so-chart-tooltip-surface: var(--ordo-so-bg-overlay);
+  --ordo-so-chart-tooltip-border: var(--ordo-so-border-overlay);
+  --ordo-so-chart-tooltip-text: var(--ordo-so-text-primary);
+
+  /* Overlay */
+  --ordo-so-overlay-backdrop: oklch(0 0 0 / 0.8);
+  --ordo-so-overlay-surface: var(--ordo-so-bg-overlay);
+  --ordo-so-overlay-border: var(--ordo-so-border-overlay);
+  --ordo-so-overlay-shadow: var(--ordo-so-shadow-overlay);
+  --ordo-so-overlay-z-dropdown: 50;
+  --ordo-so-overlay-z-modal: 70;
+  --ordo-so-overlay-z-toast: 90;
+  --ordo-so-overlay-duration: 300ms;
+
+  /* Responsive source values are reserved, not applied to the ORDOSPACE shell. */
+  --ordo-so-breakpoint-sm: 640px;
+  --ordo-so-breakpoint-md: 768px;
+  --ordo-so-breakpoint-lg: 1024px;
+  --ordo-so-breakpoint-xl: 1280px;
+
+  /* Existing dark layer aliases keep the legacy cascade while using this source. */
+  --dk-bg: var(--ordo-so-bg-dashboard);
+  --dk-surface: var(--ordo-so-bg-surface);
+  --dk-surface-raised: var(--ordo-so-bg-surface-muted);
+  --dk-surface-overlay: var(--ordo-so-bg-overlay);
+  --dk-border: var(--ordo-so-border-default);
+  --dk-border-emphasis: var(--ordo-so-border-interactive);
+  --dk-border-strong: var(--ordo-so-border-strong);
+  --dk-text: var(--ordo-so-text-primary);
+  --dk-text-secondary: var(--ordo-so-text-secondary);
+  --dk-text-tertiary: var(--ordo-so-text-muted);
+  --dk-shadow-subtle: var(--ordo-so-shadow-surface);
+  --dk-shadow-card: var(--ordo-so-shadow-raised);
+
+  background-color: var(--ordo-so-bg-dashboard);
+  color: var(--ordo-so-text-primary);
+  font-family: var(--ordo-so-font-sans);
+}
+
+body.auth-on #mainArea,
+html[data-theme] body.auth-on .screen.active {
+  background: var(--ordo-so-bg-dashboard);
+  color: var(--ordo-so-text-primary);
+  font-family: var(--ordo-so-font-sans);
+}
+
+body.auth-on ::selection {
+  background: var(--ordo-so-bg-selected);
+  color: var(--ordo-so-text-primary);
+}
+
+body.auth-on :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--ordo-so-border-focus);
+  outline-offset: 2px;
+  border-color: var(--ordo-so-border-focus);
+  box-shadow: var(--ordo-so-state-focus-visible-ring);
+}
+
+/* Authenticated primary controls use emerald as a fine accent, not a filled panel. */
+body.auth-on .bg-brand-primary {
+  border: 1px solid var(--ordo-so-text-accent);
+  background: var(--ordo-so-bg-surface-muted);
+  color: var(--ordo-so-text-primary);
+}
+
+body.auth-on .bg-brand-primary:hover,
+body.auth-on .hover\:bg-brand-hover:hover {
+  border-color: var(--ordo-so-text-accent);
+  background: var(--ordo-so-bg-hover);
+  color: var(--ordo-so-text-primary);
+}
+
+body.auth-on :where(button, input, select, textarea):disabled,
+body.auth-on [aria-disabled='true'] {
+  opacity: var(--ordo-so-state-disabled-opacity);
+  cursor: var(--ordo-so-state-disabled-cursor);
+}
+
+/* Minimal semantic bridge. The existing layout classes and DOM remain authoritative. */
+body.auth-on .bg-white { background-color: var(--ordo-so-bg-surface); }
+body.auth-on .bg-bg-secondary { background-color: var(--ordo-so-bg-surface-secondary); }
+body.auth-on .bg-bg-tertiary { background-color: var(--ordo-so-bg-surface-muted); }
+body.auth-on .border-bd-default { border-color: var(--ordo-so-border-default); }
+body.auth-on .border-bd-emphasis { border-color: var(--ordo-so-border-interactive); }
+body.auth-on .text-tx-primary { color: var(--ordo-so-text-primary); }
+body.auth-on .text-tx-secondary { color: var(--ordo-so-text-secondary); }
+body.auth-on .text-tx-tertiary { color: var(--ordo-so-text-muted); }
+body.auth-on .shadow-subtle { box-shadow: var(--ordo-so-shadow-surface); }
+body.auth-on .shadow-card { box-shadow: var(--ordo-so-shadow-raised); }
+body.auth-on .divide-bd-default > :not(:first-child) { border-color: var(--ordo-so-border-divider); }
+
+/* UI-010 — lifecycle chip foundation. Existing Korean labels and status logic stay intact. */
+body.auth-on .ordo-c-status-badge {
+  border-radius: var(--ordo-so-radius-control);
+  font-family: var(--ordo-so-font-sans);
+  font-size: var(--ordo-so-type-badge-size);
+  font-weight: var(--ordo-so-type-badge-weight);
+  transition: var(--ordo-so-state-default-transition);
+}
+body.auth-on .bg-st-okbg { background-color: var(--ordo-so-tone-success-bg) !important; }
+body.auth-on .border-st-okbd { border-color: var(--ordo-so-tone-success-border) !important; }
+body.auth-on .text-st-okfg { color: var(--ordo-so-tone-success-fg) !important; }
+body.auth-on .bg-st-warnbg { background-color: var(--ordo-so-tone-warning-bg) !important; }
+body.auth-on .border-st-warnbd { border-color: var(--ordo-so-tone-warning-border) !important; }
+body.auth-on .text-st-warnfg { color: var(--ordo-so-tone-warning-fg) !important; }
+body.auth-on .bg-st-critbg { background-color: var(--ordo-so-tone-critical-bg) !important; }
+body.auth-on .border-st-critbd { border-color: var(--ordo-so-tone-critical-border) !important; }
+body.auth-on .text-st-critfg { color: var(--ordo-so-tone-critical-fg) !important; }
+body.auth-on .bg-st-pendbg { background-color: var(--ordo-so-tone-pending-bg) !important; }
+body.auth-on .border-st-pendbd { border-color: var(--ordo-so-tone-pending-border) !important; }
+body.auth-on .text-st-pendfg { color: var(--ordo-so-tone-pending-fg) !important; }
+body.auth-on .bg-st-rejbg { background-color: var(--ordo-so-tone-disabled-bg) !important; }
+body.auth-on .border-st-rejbd { border-color: var(--ordo-so-tone-disabled-border) !important; }
+body.auth-on .text-st-rejfg { color: var(--ordo-so-tone-disabled-fg) !important; }
+
+/* UI-011 — metric cards receive only shared foundation, not Round 4 primitive polish. */
+body.auth-on .ordo-c-kpi-card {
+  background-color: var(--ordo-so-bg-surface);
+  border-color: var(--ordo-so-border-default);
+  border-radius: var(--ordo-so-radius-card);
+  box-shadow: var(--ordo-so-shadow-surface);
+}
+
+/* UI-012 — current/total semantics and inline width remain untouched. */
+body.auth-on .progress-track,
+body.auth-on .ordo-c-progress-track {
+  background: var(--ordo-so-bg-surface-muted) !important;
+  border-radius: var(--ordo-so-radius-pill);
+}
+body.auth-on .progress-fill {
+  background: var(--ordo-so-chart-2);
+  border-radius: var(--ordo-so-radius-pill);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.auth-on {
+    --ordo-so-transition-fast: 0ms linear;
+    --ordo-so-transition-standard: 0ms linear;
+    --ordo-so-transition-emphasis: 0ms linear;
+  }
+}

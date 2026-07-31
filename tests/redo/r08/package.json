@@ -1,0 +1,9 @@
+{
+  "name": "ordospace-redo-r08-audit",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "audit": "node ../r04/node_modules/@playwright/test/cli.js test --config playwright.config.cjs",
+    "validate": "npm run audit && node validate.cjs"
+  }
+}

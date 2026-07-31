@@ -1,0 +1,391 @@
+/*
+ * Round 6 — SalesOps visual grammar for the five Admin body screens.
+ * The shared shell and all non-Admin/public surfaces remain outside this scope.
+ */
+body.auth-on :is(
+  #screen-admin-home,
+  #screen-admin-projects,
+  #screen-admin-cards,
+  #screen-admin-team,
+  #screen-admin-audit
+) {
+  --ordo-admin-surface: var(--ordo-so-bg-surface);
+  --ordo-admin-surface-subtle: var(--ordo-so-bg-surface-secondary);
+  --ordo-admin-surface-muted: var(--ordo-so-bg-surface-muted);
+  --ordo-admin-border: var(--ordo-so-border-default);
+  --ordo-admin-border-strong: var(--ordo-so-border-strong);
+  --ordo-admin-accent: var(--ordo-so-text-accent);
+  color: var(--ordo-so-text-primary);
+  overflow-wrap: anywhere;
+}
+
+body.auth-on :is(
+  #screen-admin-home,
+  #screen-admin-projects,
+  #screen-admin-cards,
+  #screen-admin-team,
+  #screen-admin-audit
+) > div:first-child > header {
+  border-bottom: 1px solid var(--ordo-so-border-subtle);
+  padding-bottom: var(--ordo-c-padding-md);
+}
+
+body.auth-on :is(
+  #screen-admin-home,
+  #screen-admin-projects,
+  #screen-admin-cards,
+  #screen-admin-team,
+  #screen-admin-audit
+) h1 {
+  color: var(--ordo-so-text-primary);
+  font-size: var(--ordo-so-type-page-size);
+  line-height: var(--ordo-so-type-page-line);
+  font-weight: var(--ordo-so-type-page-weight);
+  letter-spacing: -0.02em;
+}
+
+body.auth-on :is(
+  #screen-admin-home,
+  #screen-admin-projects,
+  #screen-admin-cards,
+  #screen-admin-team,
+  #screen-admin-audit
+) h2 {
+  color: var(--ordo-so-text-primary);
+}
+
+body.auth-on :is(
+  #screen-admin-home,
+  #screen-admin-projects,
+  #screen-admin-cards,
+  #screen-admin-team,
+  #screen-admin-audit
+) :where(.ordo-c-kpi-card, .ordo-admin-surface, .ordo-admin-detail) {
+  border: 1px solid var(--ordo-admin-border);
+  border-radius: var(--ordo-so-radius-card);
+  background: var(--ordo-admin-surface);
+  box-shadow: var(--ordo-so-shadow-surface);
+}
+
+body.auth-on :is(
+  #screen-admin-home,
+  #screen-admin-team
+) .ordo-c-kpi-card {
+  min-width: 0;
+  padding: var(--ordo-so-card-padding-compact);
+  transition: var(--ordo-so-state-default-transition);
+}
+
+body.auth-on :is(
+  #screen-admin-home,
+  #screen-admin-team
+) .ordo-c-kpi-card:hover {
+  border-color: var(--ordo-admin-border-strong);
+  background: var(--ordo-so-bg-hover);
+}
+
+body.auth-on #screen-admin-home .ordo-c-action-card {
+  min-width: 0;
+  background: var(--ordo-admin-surface);
+  border-color: var(--ordo-admin-border);
+  border-radius: var(--ordo-so-radius-card);
+}
+
+body.auth-on #screen-admin-home .ordo-c-action-card:hover {
+  background: var(--ordo-so-bg-hover);
+  border-color: var(--ordo-admin-border-strong);
+  box-shadow: var(--ordo-so-shadow-surface);
+}
+
+body.auth-on #screen-admin-home :where(
+  [data-admin-home-project],
+  [data-admin-home-worker]
+) {
+  transition: var(--ordo-so-state-default-transition);
+}
+
+body.auth-on #screen-admin-home :where(
+  [data-admin-home-project],
+  [data-admin-home-worker]
+):hover {
+  background: var(--ordo-so-bg-hover);
+}
+
+body.auth-on #screen-admin-projects [data-admin-project-view],
+body.auth-on #screen-admin-team [data-admin-team-tab],
+body.auth-on #screen-admin-projects [data-admin-project-detail-tab] {
+  border: 1px solid transparent;
+  color: var(--ordo-so-text-secondary);
+  transition: var(--ordo-so-state-default-transition);
+}
+
+body.auth-on #screen-admin-projects [data-admin-project-view][aria-selected='true'],
+body.auth-on #screen-admin-team [data-admin-team-tab][aria-selected='true'] {
+  border-color: var(--ordo-admin-border-strong);
+  background: var(--ordo-so-bg-selected);
+  color: var(--ordo-so-text-primary);
+  box-shadow: var(--ordo-so-shadow-surface);
+}
+
+body.auth-on #screen-admin-projects :is(.ordo-admin-project-column, #adminProjectBoard > section) {
+  min-width: 17.5rem;
+  border: 1px solid var(--ordo-admin-border);
+  border-radius: var(--ordo-so-radius-card);
+  background: var(--ordo-admin-surface-subtle);
+}
+
+body.auth-on #screen-admin-projects .ordo-admin-project-card {
+  min-width: 0;
+  border-color: var(--ordo-admin-border);
+  background: var(--ordo-admin-surface);
+  color: var(--ordo-so-text-primary);
+  transition: var(--ordo-so-state-default-transition);
+}
+
+body.auth-on #screen-admin-projects .ordo-admin-project-card:hover {
+  border-color: var(--ordo-admin-border-strong);
+  background: var(--ordo-so-bg-hover);
+  box-shadow: var(--ordo-so-shadow-surface);
+}
+
+body.auth-on #screen-admin-projects .ordo-admin-project-card[data-state='selected'] {
+  border-color: var(--ordo-admin-border-strong);
+  background: var(--ordo-so-bg-selected);
+  box-shadow: var(--ordo-so-shadow-surface);
+}
+
+body.auth-on #screen-admin-projects .ordo-admin-project-empty {
+  border-color: var(--ordo-so-state-empty-border);
+  background: var(--ordo-so-state-empty-bg);
+  color: var(--ordo-so-state-empty-fg);
+}
+
+body.auth-on #screen-admin-projects #adminProjectBoard > section > div:last-child > div:not(:has(button)) {
+  border-color: var(--ordo-so-state-empty-border);
+  background: var(--ordo-so-state-empty-bg);
+  color: var(--ordo-so-state-empty-fg);
+}
+
+body.auth-on #screen-admin-projects [data-admin-project-detail-tab][aria-selected='true'] {
+  border-bottom-color: var(--ordo-so-text-primary);
+  color: var(--ordo-so-text-primary);
+}
+
+body.auth-on #screen-admin-cards .ordo-c-list-detail {
+  border-color: var(--ordo-admin-border);
+  background: var(--ordo-admin-surface);
+}
+
+body.auth-on #screen-admin-cards #adminCardList {
+  background: var(--ordo-admin-surface-subtle);
+  scrollbar-color: var(--ordo-so-border-strong) var(--ordo-admin-surface-subtle);
+}
+
+body.auth-on #screen-admin-cards #adminCardDetail,
+body.auth-on #screen-admin-cards #adminCardFilterPills {
+  min-width: 0;
+}
+
+body.auth-on #screen-admin-cards [data-admin-card-filter] {
+  border: 1px solid var(--ordo-admin-border);
+  background: var(--ordo-admin-surface);
+  color: var(--ordo-so-text-secondary);
+  transition: var(--ordo-so-state-default-transition);
+}
+
+body.auth-on #screen-admin-cards [data-admin-card-filter]:hover {
+  border-color: var(--ordo-admin-border-strong);
+  color: var(--ordo-so-text-primary);
+}
+
+body.auth-on #screen-admin-cards [data-admin-card-filter][aria-pressed='true'] {
+  border-color: var(--ordo-admin-border-strong);
+  background: var(--ordo-so-bg-selected);
+  color: var(--ordo-so-text-primary);
+}
+
+body.auth-on #screen-admin-cards .ordo-admin-state-banner {
+  border-radius: var(--ordo-so-radius-card);
+  box-shadow: var(--ordo-so-shadow-surface);
+}
+
+body.auth-on :is(#adminBulkCreateSheet, #invitePartnerSheet, #reassignModal) {
+  color: var(--ordo-so-text-primary);
+}
+
+body.auth-on :is(#adminBulkCreateSheet, #invitePartnerSheet, #reassignModal) > [class*='bg-black'] {
+  background: var(--ordo-so-overlay-backdrop);
+}
+
+body.auth-on :is(#adminBulkCreateSheet, #invitePartnerSheet, #reassignModal) :where(
+  .ordo-admin-overlay,
+  .sheet
+) {
+  border-color: var(--ordo-so-overlay-border);
+  background: var(--ordo-so-overlay-surface);
+  box-shadow: var(--ordo-so-overlay-shadow);
+}
+
+body.auth-on .ordo-admin-validation {
+  border: 1px solid var(--ordo-so-tone-critical-border);
+  border-radius: var(--ordo-so-radius-control);
+  background: var(--ordo-so-tone-critical-bg);
+  color: var(--ordo-so-tone-critical-fg);
+}
+
+body.auth-on #screen-admin-team .ordo-admin-avatar {
+  border-color: var(--ordo-admin-border);
+  background: var(--ordo-admin-surface-muted);
+  color: var(--ordo-so-text-primary);
+}
+
+body.auth-on #screen-admin-team .ordo-admin-skill-chip {
+  border-color: var(--ordo-admin-border);
+  background: var(--ordo-admin-surface-muted);
+  color: var(--ordo-so-text-secondary);
+}
+
+body.auth-on #screen-admin-team .ordo-admin-heat-cell {
+  transition: var(--ordo-so-state-default-transition);
+}
+
+body.auth-on #screen-admin-team .ordo-admin-heat-cell:hover {
+  border-color: var(--ordo-admin-border-strong);
+  box-shadow: var(--ordo-so-shadow-surface);
+}
+
+body.auth-on #screen-admin-audit .ordo-admin-audit-toolbar {
+  border-color: var(--ordo-admin-border);
+  background: var(--ordo-admin-surface);
+}
+
+body.auth-on #screen-admin-audit .ordo-admin-audit-event {
+  min-width: 0;
+  border-radius: var(--ordo-so-radius-control);
+  padding: var(--ordo-c-padding-sm);
+  transition: var(--ordo-so-state-default-transition);
+}
+
+body.auth-on #screen-admin-audit .ordo-admin-audit-event:hover,
+body.auth-on #screen-admin-audit .ordo-admin-audit-event:focus-within {
+  background: var(--ordo-so-bg-hover);
+}
+
+body.auth-on #screen-admin-audit .ordo-admin-audit-event > span:first-child {
+  box-shadow: 0 0 0 4px var(--ordo-so-bg-dashboard);
+}
+
+body.auth-on :is(
+  #screen-admin-home,
+  #screen-admin-projects,
+  #screen-admin-cards,
+  #screen-admin-team,
+  #screen-admin-audit
+) :where(table, [role='table']) {
+  font-size: var(--ordo-so-type-table-size);
+  line-height: var(--ordo-so-type-table-line);
+}
+
+body.auth-on :is(
+  #screen-admin-home,
+  #screen-admin-projects,
+  #screen-admin-cards,
+  #screen-admin-team,
+  #screen-admin-audit
+) :where(thead, th) {
+  background: var(--ordo-admin-surface-subtle);
+  color: var(--ordo-so-text-muted);
+}
+
+body.auth-on :is(
+  #screen-admin-home,
+  #screen-admin-projects,
+  #screen-admin-cards,
+  #screen-admin-team,
+  #screen-admin-audit
+) .ordo-admin-table-row:hover {
+  background: var(--ordo-so-bg-hover);
+}
+
+body.auth-on :is(
+  #screen-admin-home,
+  #screen-admin-projects,
+  #screen-admin-cards,
+  #screen-admin-team,
+  #screen-admin-audit
+) :where(button, a, [tabindex='0']):active {
+  transform: translateY(1px);
+}
+
+body.auth-on :is(
+  #screen-admin-home,
+  #screen-admin-projects,
+  #screen-admin-cards,
+  #screen-admin-team,
+  #screen-admin-audit
+) :where([aria-busy='true'], [data-state='loading']) {
+  cursor: progress;
+  opacity: var(--ordo-so-state-loading-opacity);
+}
+
+@media (max-width: 1023px) {
+  body.auth-on #screen-admin-projects .ordo-admin-project-column {
+    min-width: 17rem;
+  }
+}
+
+@media (max-width: 767px) {
+  body.auth-on :is(
+    #screen-admin-home,
+    #screen-admin-projects,
+    #screen-admin-cards,
+    #screen-admin-team,
+    #screen-admin-audit
+  ) > div:first-child {
+    min-width: 0;
+  }
+
+  body.auth-on :is(
+    #screen-admin-home,
+    #screen-admin-projects,
+    #screen-admin-cards,
+    #screen-admin-team,
+    #screen-admin-audit
+  ) > div:first-child > header {
+    padding-bottom: var(--ordo-c-padding-sm);
+  }
+
+  body.auth-on #screen-admin-cards .ordo-c-list-detail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body.auth-on #screen-admin-cards #adminCardList {
+    max-height: 26rem;
+    min-height: 16rem;
+  }
+
+  body.auth-on #screen-admin-cards #adminCardDetail {
+    min-height: 0;
+  }
+
+  body.auth-on #invitePartnerSheet .sheet {
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    max-width: none;
+    height: min(88vh, 44rem);
+    border-radius: var(--ordo-so-radius-overlay) var(--ordo-so-radius-overlay) 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.auth-on :is(
+    #screen-admin-home,
+    #screen-admin-projects,
+    #screen-admin-cards,
+    #screen-admin-team,
+    #screen-admin-audit
+  ) * {
+    scroll-behavior: auto;
+  }
+}
