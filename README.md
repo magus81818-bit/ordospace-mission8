@@ -1,3 +1,35 @@
+# ORDOSPACE Rebuild — Mission 8 (Payment)
+
+Codeit Mission 8: **토스페이먼츠 sandbox 일회성 프로젝트 킥오프 결제** (₩49,000, CLIENT 본인 프로젝트).
+
+- 상세: [docs/mission8/README.md](./docs/mission8/README.md)
+- 로컬 경로: `ordospace-mission8` (기존 ORDOSPACE 운영과 격리)
+- **라이브 결제 금지** — `TOSS_MODE=test` only
+
+## Mission 8 로컬 실행
+
+```powershell
+# 프론트 검증
+npm.cmd ci && npm.cmd run test:mission8
+
+# 백엔드
+cd backend
+npm.cmd ci && npx.cmd prisma generate && npm.cmd test -- --runInBand
+```
+
+환경변수: `backend/.env.example` 참고 (`TOSS_SECRET_KEY`, `TOSS_CLIENT_KEY`는 Render에만 설정)
+
+## Mission 8 제출 상태
+
+| 항목 | 상태 |
+|---|---|
+| 로컬 구현·테스트 | PASS |
+| GitHub public push | BLOCKED (gh CLI 없음) |
+| Vercel/Render 배포 | BLOCKED (호스팅 인증 필요) |
+| Toss sandbox E2E | NOT RUN (테스트 키 필요) |
+
+---
+
 # ORDOSPACE Rebuild
 
 멀티 역할(관리자·작업자·클라이언트) 프로젝트 운영 워크스페이스.
