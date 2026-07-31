@@ -1,0 +1,17 @@
+{
+  "result": {
+    "steps": [
+      "hash_after_login=#dashboard",
+      "hash_after_nav=#project"
+    ],
+    "configuredUi": true,
+    "payBtnEnabled": true,
+    "tossOpened": false,
+    "tossUrl": "https://ordospace-mission8.vercel.app/#project",
+    "panelText": "KICKOFF PAYMENT\n\nORDOSPACE 프로젝트 킥오프\n\n테스트 결제 ₩49,000 · 실제 청구되지 않습니다\n\n테스트 결제\n상품\n프로젝트 킥오프\n금액\n₩49,000\n상태\n미결제\n처리 중…",
+    "error": ""
+  },
+  "logs": [
+    "error: Failed to load resource: the server responded with a status of 404 ()"
+  ]
+}

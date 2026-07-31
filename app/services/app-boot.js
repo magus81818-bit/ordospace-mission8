@@ -13,15 +13,31 @@
 
   // ① 새로고침 시 로그인 유지: 저장된 토큰으로 세션 복원 시도
   function boot(){
-    if (svc.rehydrateSession) {
-      svc.rehydrateSession().then(function(res){
-        // 복원 성공 시 현재 화면을 새 데이터로 다시 그린다(라우터가 있으면).
-        if (res && res.ok && typeof window.renderModuleRouteScreens === 'function') {
-          var route = (location.hash || '#dashboard').replace('#','').split('?')[0] || 'dashboard';
-          window.renderModuleRouteScreens(route);
+    var payment = window.ORDO_PAYMENT_ORDER;
+    var runRehydrate = function(){
+      if (svc.rehydrateSession) {
+        svc.rehydrateSession().then(function(res){
+          if (res && res.ok && typeof window.renderModuleRouteScreens === 'function') {
+            var route = (location.hash || '#dashboard').replace('#','').split('?')[0] || 'dashboard';
+            window.renderModuleRouteScreens(route);
+          }
+        });
+      }
+    };
+    if (payment && payment.handlePaymentCallback) {
+      payment.handlePaymentCallback().then(function(result){
+        if (result && result.ok) {
+          var mount = document.getElementById('clientProjectKickoffPayment');
+          if (mount) { mount._paymentPaid = true; mount._paymentState = Object.assign({}, mount._paymentState || {}, { paymentStatus: 'PAID', message: result.message, error: '' }); }
+        } else if (result && !result.ok) {
+          var m = document.getElementById('clientProjectKickoffPayment');
+          if (m && m._paymentRender) m._paymentRender({ error: result.message, message: '' });
         }
-      });
+        runRehydrate();
+      }).catch(function(){ runRehydrate(); });
+      return;
     }
+    runRehydrate();
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);

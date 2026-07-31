@@ -1,0 +1,33 @@
+{
+  "configuredUi": true,
+  "payBtnEnabled": true,
+  "tossOpened": true,
+  "tossUrl": "https://ordospace-mission8.vercel.app/#project",
+  "reqs": [
+    "GET https://static.toss.im/tps/20260223/medium/111.woff2",
+    "GET https://static.toss.im/tps/20260223/medium/107.woff2",
+    "GET https://static.toss.im/tps/20260223/medium/117.woff2",
+    "GET https://static.toss.im/tps/20260223/medium/114.woff2",
+    "GET https://static.toss.im/tps/20260223/bold/118.woff2",
+    "GET https://static.toss.im/tps/20260223/bold/117.woff2",
+    "GET https://static.toss.im/tps/20260223/bold/116.woff2",
+    "GET https://payment-gateway-sandbox.tosspayments.com/payment-gateway/98d5010d15741da5c231d7a9d32afcf00851db70/_next/static/chunks/3753-16001c821d09f7d8.js",
+    "GET https://payment-gateway-sandbox.tosspayments.com/payment-gateway/98d5010d15741da5c231d7a9d32afcf00851db70/_next/static/chunks/7396-6af5488ca2d98338.js",
+    "GET https://payment-gateway-sandbox.tosspayments.com/payment-gateway/98d5010d15741da5c231d7a9d32afcf00851db70/_next/static/chunks/pages/pc/payment-method/digital-wallet/option-d5a76105e722ef0c.js",
+    "GET https://payment-gateway-sandbox.tosspayments.com/payment-gateway/98d5010d15741da5c231d7a9d32afcf00851db70/_next/static/chunks/pages/pc/payment-method/card/option-853cbf6e67f8c108.js",
+    "GET https://payment-gateway-sandbox.tosspayments.com/payment-gateway/98d5010d15741da5c231d7a9d32afcf00851db70/_next/static/chunks/3753-16001c821d09f7d8.js",
+    "GET https://payment-gateway-sandbox.tosspayments.com/payment-gateway/98d5010d15741da5c231d7a9d32afcf00851db70/_next/static/chunks/7396-6af5488ca2d98338.js",
+    "GET https://payment-gateway-sandbox.tosspayments.com/payment-gateway/98d5010d15741da5c231d7a9d32afcf00851db70/_next/static/chunks/pages/pc/payment-method/digital-wallet/option-d5a76105e722ef0c.js",
+    "GET https://payment-gateway-sandbox.tosspayments.com/payment-gateway/98d5010d15741da5c231d7a9d32afcf00851db70/_next/static/chunks/pages/pc/payment-method/card/option-853cbf6e67f8c108.js",
+    "GET https://static.toss.im/tps/20260223/regular/104.woff2",
+    "GET https://static.toss.im/tps/20260223/medium/105.woff2",
+    "POST https://services.tosspayments.com/unleash/api/frontend/client/metrics",
+    "POST https://log.tosspayments.com/v1/log",
+    "GET https://services.tosspayments.com/unleash/api/frontend?sessionId=a260731WfUKX8vw3NTYPkevRGL9PCh8hdomWqaE&appName=nextjs&environment=default&userId=a260731WfUKX8vw3NTYPkevRGL9PCh8hdomWqaE"
+  ],
+  "panelAfter": "KICKOFF PAYMENT\n\nORDOSPACE 프로젝트 킥오프\n\n테스트 결제 ₩49,000 · 실제 청구되지 않습니다\n\n테스트 결제\n상품\n프로젝트 킥오프\n금액\n₩49,000\n상태\n미결제\n처리 중…",
+  "error": "",
+  "frameUrls": [
+    "https://payment-gateway-sandbox.tosspayments.com/pc?token=363b0a32bf1f4e0f8266fdef99025c2d7e35f20d9a704cac80b40ca573920225&gtid=a260731WfUKX8vw3NTYPkevRGL9PCh8hdomWqaE"
+  ]
+}

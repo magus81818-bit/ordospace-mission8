@@ -4,7 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <!-- 배포된 프론트가 사용할 백엔드(Render) 오리진. 로컬은 app/config/api.config.js가 localhost로 처리. -->
-<meta name="ordo-api-base" content="https://ordospace-rebuild.onrender.com" />
+<!-- Mission 8: 신규 격리 Render API -->
+<meta name="ordo-api-base" content="https://ordospace-mission8-api.onrender.com" />
 <title>ORDOSPACE — 멀티 역할 워크스페이스 (v3.0)</title>
 
 <!--
@@ -2371,6 +2372,8 @@
       <div id="clientProjectStepProgress"></div>
     </section>
 
+    <div id="clientProjectKickoffPayment" class="mb-5" data-payment-surface="client-project"></div>
+
     <section class="ordo-client-surface bg-white border border-bd-default rounded-xl shadow-subtle overflow-hidden">
       <div class="flex items-stretch border-b border-bd-default" role="tablist" aria-label="프로젝트 보기">
         <button type="button" data-project-tab="timeline" class="client-project-tab flex-1 h-12 text-[13px] font-semibold border-b-2 border-brand-primary text-tx-primary inline-flex items-center justify-center">타임라인</button>
@@ -3393,6 +3396,8 @@
 <script src="./app/ui/components/admin.ui.js"></script>
 <script src="./app/ui/components/client.ui.js"></script>
 <script src="./app/ui/components/worker.ui.js"></script>
+<script src="./app/ui/components/payment.ui.js"></script>
+<script src="./app/services/payment-order.service.js"></script>
 <script src="./app/ui/workspace.ui.js"></script>
 <script src="./app/ui/liquid-glass.interactions.js"></script>
 <script src="./app/router/hash-router.js"></script>

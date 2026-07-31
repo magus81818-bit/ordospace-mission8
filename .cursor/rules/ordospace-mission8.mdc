@@ -1,0 +1,36 @@
+---
+alwaysApply: true
+---
+# ORDOSPACE Mission 8
+
+작업 전 반드시 읽기:
+1. `CLAUDE.md`
+2. `backend/CLAUDE.md` (백엔드 작업 시)
+3. `docs/mission8/DEVELOPMENT_OVERVIEW.md`
+4. 직전 `docs/mission8/reports/round-*.md`
+
+## 핵심 계약
+
+- **제품 surface**: 루트 `index.html` + `app/` (react-mvp는 회귀만)
+- **결제**: Toss sandbox only, `PROJECT_KICKOFF` ₩49,000 서버 고정
+- **CLIENT** 본인 프로젝트만 주문/승인
+- **PaymentGateway** adapter 분리, secret server-only
+- **멱등성**: idempotencyKey, PAID confirm retry, paymentKey unique
+- **callback**: query param (`paymentResult=success|fail`), hash fragment 금지
+
+## 변경 금지
+
+- `ordospace-ui-rebuild`, `ORDOSPACE_rebuild`, 강사 저장소 working tree
+- `legendary-meme` 완전 제외
+- 기존 ORDOSPACE Vercel/Render Production
+
+## 종료 게이트
+
+- `npm.cmd test`, `npm.cmd run type`, `npm.cmd run build` (backend)
+- root build, check:js, smoke, static validators
+- TDD: 해피패스 red→green → critical 2건
+
+## 새 저장소
+
+`C:\Users\Admin\Desktop\K-디지털\수업자료\코덱스\ordospace-mission8`  
+GitHub: `magus81818-bit/ordospace-mission8`

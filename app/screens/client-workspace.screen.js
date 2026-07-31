@@ -47,7 +47,25 @@ function renderProjectTimeline(){const status=document.getElementById('clientPro
 function renderProjectArtifacts(){const rows=clientProjectCards().filter(c=>c.status==='approved').flatMap(c=>(c.attachments||[]).map(a=>({card:c,asset:a}))).sort((a,b)=>dateRank(b.asset.date)-dateRank(a.asset.date));setHtml('clientProjectArtifacts',rows.map(row=>'<a href="'+moduleEsc(row.asset.url||'#')+'" class="ordo-client-asset-row flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-3 p-4 bg-white hover:bg-bg-secondary text-[13px]" aria-label="산출물 '+moduleEsc(row.asset.name)+'"><span class="font-semibold text-tx-primary"><span aria-hidden="true">📎 </span>'+moduleEsc(row.asset.name)+' — '+moduleEsc(row.card.spec)+' '+moduleEsc(row.card.module)+'</span><span class="text-tx-tertiary">'+moduleEsc(row.asset.date||row.card.approvedAt||'-')+'</span></a>').join('')||'<div class="ordo-c-empty-state p-6 bg-bg-secondary text-[13px] text-tx-secondary">승인 완료 산출물이 없습니다.</div>');}
 function updateProjectTabView(){const timeline=document.getElementById('clientProjectTimelinePanel'),assets=document.getElementById('clientProjectAssetsPanel');if(timeline)timeline.classList.toggle('hidden',_clientProjectTab!=='timeline');if(assets)assets.classList.toggle('hidden',_clientProjectTab!=='assets');document.querySelectorAll('[data-project-tab]').forEach(btn=>{const active=btn.getAttribute('data-project-tab')===_clientProjectTab;btn.classList.toggle('border-brand-primary',active);btn.classList.toggle('border-transparent',!active);btn.classList.toggle('text-tx-primary',active);btn.classList.toggle('text-tx-tertiary',!active);btn.classList.toggle('font-semibold',active);btn.classList.toggle('font-medium',!active);});if(_clientProjectTab==='assets')renderProjectArtifacts();else renderProjectTimeline();}
 function bindProjectControls(){document.querySelectorAll('[data-project-tab]').forEach(btn=>{btn.onclick=()=>{_clientProjectTab=btn.getAttribute('data-project-tab')||'timeline';updateProjectTabView();};});document.querySelectorAll('[data-project-chain-filter]').forEach(btn=>{btn.onclick=()=>{_clientProjectChainFilter=btn.getAttribute('data-project-chain-filter')||'all';renderProjectTimeline();};});const status=document.getElementById('clientProjectStatusFilter');if(status)status.onchange=()=>{_clientProjectStatusFilter=status.value||'all';renderProjectTimeline();};bindCardDetailModal();}
-function renderProject(){const prog=clientProjectProgress();setHtml('clientProjectStepProgress',clientStepProgressHtml());const rate=document.getElementById('clientProjectProgressRate');if(rate)rate.textContent=prog.pct+'%';bindProjectControls();updateProjectTabView();if(window.refreshIcons)window.refreshIcons();else if(window.lucide)window.lucide.createIcons();}
+function renderProject(){const prog=clientProjectProgress();setHtml('clientProjectStepProgress',clientStepProgressHtml());const rate=document.getElementById('clientProjectProgressRate');if(rate)rate.textContent=prog.pct+'%';renderKickoffPaymentPanel();bindProjectControls();updateProjectTabView();if(window.refreshIcons)window.refreshIcons();else if(window.lucide)window.lucide.createIcons();}
+function renderKickoffPaymentPanel(){
+  const mount=document.getElementById('clientProjectKickoffPayment');
+  if(!mount||!window.ORDO_UI_COMPONENTS?.PaymentKickoffPanel)return;
+  const render=function(patch){
+    const prev=mount._paymentState||{paymentStatus:'UNPAID',config:{configured:false},busy:false};
+    const state=Object.assign({},prev,patch||{});
+    mount._paymentState=state;
+    mount.innerHTML=window.ORDO_UI_COMPONENTS.PaymentKickoffPanel(state);
+    window.ORDO_UI_COMPONENTS.bindPaymentKickoffPanel(render);
+    if(window.refreshIcons)window.refreshIcons();
+  };
+  mount._paymentRender=render;
+  render({busy:true,message:'',error:''});
+  if(!window.ORDO_PAYMENT_ORDER?.fetchConfig){render({busy:false});return;}
+  window.ORDO_PAYMENT_ORDER.fetchConfig().then(function(cfg){
+    render({config:cfg,busy:false,paymentStatus:mount._paymentPaid?'PAID':'UNPAID'});
+  }).catch(function(){render({config:{configured:false},busy:false});});
+}
 function cardDetailBodyHtml(c){
   const C = window.ORDO_UI_COMPONENTS;
   const p = ORDO_MODULE_PEOPLE[c.assignedTo || 'unassigned'] || ORDO_MODULE_PEOPLE.unassigned;

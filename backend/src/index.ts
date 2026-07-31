@@ -18,7 +18,13 @@ import {
 } from "./inbound/middlewares/error.middleware.js";
 import { bootstrap } from "./bootstrap.js";
 
-const { authRouter, userRouter, moduleCardRouter } = bootstrap();
+const {
+  authRouter,
+  userRouter,
+  moduleCardRouter,
+  paymentOrderRouter,
+  paymentsConfigRouter,
+} = bootstrap();
 
 const app = express();
 
@@ -53,6 +59,8 @@ app.use(
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/module-cards", moduleCardRouter);
+app.use("/api/payments", paymentsConfigRouter);
+app.use("/api/payment-orders", paymentOrderRouter);
 
 // 못 찾은 요청과 에러는 마지막에 처리
 app.use(notFoundMiddleware);

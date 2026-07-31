@@ -1,87 +1,120 @@
-# ORDOSPACE Rebuild
+﻿# ORDOSPACE Rebuild ??Mission 8 (Payment)
 
-멀티 역할(관리자·작업자·클라이언트) 프로젝트 운영 워크스페이스.
-기존 ORDOSPACE 정적 프로토타입의 UI는 그대로 보존하고, 그 뒤에 **클린 관계형 백엔드(TypeScript + Express + Prisma + PostgreSQL)** 를 새로 구축해 연결한 리빌드 버전입니다.
+Codeit Mission 8: **?좎뒪?섏씠癒쇱툩 sandbox ?쇳쉶???꾨줈?앺듃 ?μ삤??寃곗젣** (??9,000, CLIENT 蹂몄씤 ?꾨줈?앺듃).
 
-## 라이브 데모
+- ?곸꽭: [docs/mission8/README.md](./docs/mission8/README.md)
+- 濡쒖뺄 寃쎈줈: `ordospace-mission8` (湲곗〈 ORDOSPACE ?댁쁺怨?寃⑸━)
+- **?쇱씠釉?寃곗젣 湲덉?** ??`TOSS_MODE=test` only
 
-| 레이어 | URL |
-|---|---|
-| 프론트엔드 (Vercel) | https://ordospace-rebuild.vercel.app |
-| 백엔드 API (Render) | https://ordospace-rebuild.onrender.com |
-| 헬스체크 | https://ordospace-rebuild.onrender.com/api/health |
-
-> Render 무료 플랜은 유휴 시 잠들었다가 첫 요청에서 깨어납니다(최대 ~50초). 첫 로그인이 느리면 정상입니다.
-
-**데모 계정** (비밀번호 공통: `pw123456`)
-
-| 역할 | 이메일 | 보이는 것 |
-|---|---|---|
-| 관리자(PM) | `admin@ordo.com` | 전체 카드, 생성·전달 |
-| 작업자 | `worker@ordo.com` | 본인 담당 카드, 업데이트·제출 |
-| 클라이언트 | `client@ordo.com` | 소유 프로젝트 카드, 승인·수정요청 |
-
-## 핵심 기능 2가지
-
-1. **ModuleCard 라이프사이클** — 서버가 Zod로 검증하는 상태 전이.
-   `PENDING → IN_PROGRESS → QC_READY → ADMIN_REVIEW → CLIENT_REVIEW → APPROVED / REVISION_REQUESTED`
-   불법 전이·권한 위반은 서버가 거부하고, 모든 전이는 `Activity`로 기록됩니다. 카드 단위 갱신이라 전체 컬렉션 덮어쓰기 위험이 없습니다.
-2. **역할 기반 실제 인증** — bcrypt 해시 + JWT. 로그인하면 실제 신분(역할)으로 화면·데이터·행동 권한이 결정됩니다. 백엔드에 닿지 않는 환경에서는 기존 데모(mock) 로그인으로 폴백합니다.
-
-## 기술 스택
-
-- **백엔드**: TypeScript · Express 5 · Prisma 7 · PostgreSQL · Zod 4 · bcrypt · JWT (+ helmet, express-rate-limit, cors, morgan)
-- **프론트엔드**: 기존 정적 HTML/CSS/Vanilla JS 유지(사전 빌드된 Tailwind), 새 API 배선 레이어만 추가
-- **배포**: 백엔드+DB = Render(Free) · 프론트 = Vercel
-
-## 구조 (모노레포)
-
-```
-/                  정적 프론트엔드 (index.html + app/)
-├─ app/
-│  ├─ config/      화면 상수 · api.config.js(백엔드 오리진)
-│  ├─ services/    session · api(JWT) · 카드 어댑터/동기화/액션 오버라이드 · app-boot
-│  ├─ screens/     admin / worker / client 워크스페이스
-│  └─ ...          router · ui · data · qa
-└─ backend/        클린 4레이어 백엔드
-   ├─ prisma/      schema.prisma · migrations · seed.ts
-   └─ src/
-      ├─ inbound/      controllers · middlewares(auth/role/error) · zod schemas
-      ├─ application/  services(+TDD 테스트) · domain(순수 상태전이 규칙) · contracts
-      ├─ outbound/     Prisma repo 구현체
-      └─ shared/       jwt/bcrypt utils · exceptions
-```
-
-프론트 배선 원칙: 기존 화면·라이프사이클 코드는 수정하지 않고, 인증 시에만 백엔드판으로 동작을 교체(오버라이드)하는 **덧셈 방식**. 백엔드가 죽어도 데모 모드로 계속 동작합니다.
-
-## 로컬 실행
+## Mission 8 濡쒖뺄 ?ㅽ뻾
 
 ```powershell
-# 백엔드 (PowerShell 실행정책에 npm이 막히면 npm.cmd/npx.cmd 사용)
+# ?꾨줎??寃利?
+npm.cmd ci && npm.cmd run test:mission8
+
+# 諛깆뿏??
 cd backend
-npm.cmd install
-Copy-Item .env.example .env     # DATABASE_URL / JWT_SECRET 채우기
-npx.cmd prisma generate
-npx.cmd prisma migrate dev --name init
-npm.cmd run seed                # 데모 계정 + 샘플 카드
-npm.cmd run dev                 # http://localhost:3000
-
-# 게이트
-npm.cmd test                    # 단위 테스트 (DB 불필요)
-npm.cmd run type                # tsc --noEmit
-npm.cmd run smoke               # 서버 켜둔 채: 전체 라이프사이클 통합 스모크
-
-# 프론트: 루트를 아무 정적 서버로 서빙 (api.config.js가 localhost:3000을 자동 지목)
+npm.cmd ci && npx.cmd prisma generate && npm.cmd test -- --runInBand
 ```
 
-프론트 자체 빌드(Tailwind/Lucide 재생성)와 정적 검증 스크립트는 [BUILD.md](BUILD.md)와 루트 `package.json`의 `check:js` / `static:validate-*` / `smoke` 스크립트를 참고하세요. 화면 구조 상세는 `app/` 하위 README에 있습니다.
+?섍꼍蹂?? `backend/.env.example` 李멸퀬 (`TOSS_SECRET_KEY`, `TOSS_CLIENT_KEY`??Render?먮쭔 ?ㅼ젙)
 
-## 배포 요약
+## Mission 8 ?쒖텧 留곹겕
 
-- **Render Web Service**: Root Directory `backend`, Build `npm install && npx prisma generate && npx prisma migrate deploy && npm run build`, Start `npm start`, Health `/api/health`. Env: `DATABASE_URL`, `DATABASE_SSL`, `JWT_SECRET`, `NODE_VERSION`, `CORS_ORIGIN`(프론트 오리진만 허용).
-- **Vercel**: 정적 배포(빌드 없음). 배포본은 `index.html`의 `<meta name="ordo-api-base">`로 백엔드 오리진을 지목.
-- 상세 절차: [backend/DEPLOY.md](backend/DEPLOY.md)
+| ??ぉ | URL / ?곹깭 |
+|---|---|
+| GitHub (Public) | https://github.com/magus81818-bit/ordospace-mission8 |
+| Vercel Production | https://ordospace-mission8.vercel.app |
+| Render API | ?좉퇋 `ordospace-mission8-api` ??Render 濡쒓렇????Blueprint 諛고룷 ?꾩슂 |
+| Toss sandbox E2E | NOT RUN ??`TOSS_CLIENT_KEY` / `TOSS_SECRET_KEY` (test) ?꾩슂 |
 
-## 원본과의 관계
+---
 
-이 레포는 [ordospace-sprint5](https://github.com/magus81818-bit/ordospace-sprint5) 정적 프로토타입의 **리빌드**입니다. 원본 레포·배포는 변경하지 않았습니다.
+# ORDOSPACE Rebuild
+
+硫????븷(愿由ъ옄쨌?묒뾽?먃룻겢?쇱씠?명듃) ?꾨줈?앺듃 ?댁쁺 ?뚰겕?ㅽ럹?댁뒪.
+湲곗〈 ORDOSPACE ?뺤쟻 ?꾨줈?좏??낆쓽 UI??洹몃?濡?蹂댁〈?섍퀬, 洹??ㅼ뿉 **?대┛ 愿怨꾪삎 諛깆뿏??TypeScript + Express + Prisma + PostgreSQL)** 瑜??덈줈 援ъ텞???곌껐??由щ퉴??踰꾩쟾?낅땲??
+
+## ?쇱씠釉??곕え
+
+| ?덉씠??| URL |
+|---|---|
+| ?꾨줎?몄뿏??(Vercel) | https://ordospace-rebuild.vercel.app |
+| 諛깆뿏??API (Render) | https://ordospace-rebuild.onrender.com |
+| ?ъ뒪泥댄겕 | https://ordospace-rebuild.onrender.com/api/health |
+
+> Render 臾대즺 ?뚮옖? ?좏쑕 ???좊뱾?덈떎媛 泥??붿껌?먯꽌 源⑥뼱?⑸땲??理쒕? ~50珥?. 泥?濡쒓렇?몄씠 ?먮━硫??뺤긽?낅땲??
+
+**?곕え 怨꾩젙** (鍮꾨?踰덊샇 怨듯넻: `pw123456`)
+
+| ??븷 | ?대찓??| 蹂댁씠??寃?|
+|---|---|---|
+| 愿由ъ옄(PM) | `admin@ordo.com` | ?꾩껜 移대뱶, ?앹꽦쨌?꾨떖 |
+| ?묒뾽??| `worker@ordo.com` | 蹂몄씤 ?대떦 移대뱶, ?낅뜲?댄듃쨌?쒖텧 |
+| ?대씪?댁뼵??| `client@ordo.com` | ?뚯쑀 ?꾨줈?앺듃 移대뱶, ?뱀씤쨌?섏젙?붿껌 |
+
+## ?듭떖 湲곕뒫 2媛吏
+
+1. **ModuleCard ?쇱씠?꾩궗?댄겢** ???쒕쾭媛 Zod濡?寃利앺븯???곹깭 ?꾩씠.
+   `PENDING ??IN_PROGRESS ??QC_READY ??ADMIN_REVIEW ??CLIENT_REVIEW ??APPROVED / REVISION_REQUESTED`
+   遺덈쾿 ?꾩씠쨌沅뚰븳 ?꾨컲? ?쒕쾭媛 嫄곕??섍퀬, 紐⑤뱺 ?꾩씠??`Activity`濡?湲곕줉?⑸땲?? 移대뱶 ?⑥쐞 媛깆떊?대씪 ?꾩껜 而щ젆????뼱?곌린 ?꾪뿕???놁뒿?덈떎.
+2. **??븷 湲곕컲 ?ㅼ젣 ?몄쬆** ??bcrypt ?댁떆 + JWT. 濡쒓렇?명븯硫??ㅼ젣 ?좊텇(??븷)?쇰줈 ?붾㈃쨌?곗씠?걔룻뻾??沅뚰븳??寃곗젙?⑸땲?? 諛깆뿏?쒖뿉 ?우? ?딅뒗 ?섍꼍?먯꽌??湲곗〈 ?곕え(mock) 濡쒓렇?몄쑝濡??대갚?⑸땲??
+
+## 湲곗닠 ?ㅽ깮
+
+- **諛깆뿏??*: TypeScript 쨌 Express 5 쨌 Prisma 7 쨌 PostgreSQL 쨌 Zod 4 쨌 bcrypt 쨌 JWT (+ helmet, express-rate-limit, cors, morgan)
+- **?꾨줎?몄뿏??*: 湲곗〈 ?뺤쟻 HTML/CSS/Vanilla JS ?좎?(?ъ쟾 鍮뚮뱶??Tailwind), ??API 諛곗꽑 ?덉씠?대쭔 異붽?
+- **諛고룷**: 諛깆뿏??DB = Render(Free) 쨌 ?꾨줎??= Vercel
+
+## 援ъ“ (紐⑤끂?덊룷)
+
+```
+/                  ?뺤쟻 ?꾨줎?몄뿏??(index.html + app/)
+?쒋? app/
+?? ?쒋? config/      ?붾㈃ ?곸닔 쨌 api.config.js(諛깆뿏???ㅻ━吏?
+?? ?쒋? services/    session 쨌 api(JWT) 쨌 移대뱶 ?대뙌???숆린???≪뀡 ?ㅻ쾭?쇱씠??쨌 app-boot
+?? ?쒋? screens/     admin / worker / client ?뚰겕?ㅽ럹?댁뒪
+?? ?붴? ...          router 쨌 ui 쨌 data 쨌 qa
+?붴? backend/        ?대┛ 4?덉씠??諛깆뿏??
+   ?쒋? prisma/      schema.prisma 쨌 migrations 쨌 seed.ts
+   ?붴? src/
+      ?쒋? inbound/      controllers 쨌 middlewares(auth/role/error) 쨌 zod schemas
+      ?쒋? application/  services(+TDD ?뚯뒪?? 쨌 domain(?쒖닔 ?곹깭?꾩씠 洹쒖튃) 쨌 contracts
+      ?쒋? outbound/     Prisma repo 援ы쁽泥?
+      ?붴? shared/       jwt/bcrypt utils 쨌 exceptions
+```
+
+?꾨줎??諛곗꽑 ?먯튃: 湲곗〈 ?붾㈃쨌?쇱씠?꾩궗?댄겢 肄붾뱶???섏젙?섏? ?딄퀬, ?몄쬆 ?쒖뿉留?諛깆뿏?쒗뙋?쇰줈 ?숈옉??援먯껜(?ㅻ쾭?쇱씠???섎뒗 **?㏃뀍 諛⑹떇**. 諛깆뿏?쒓? 二쎌뼱???곕え 紐⑤뱶濡?怨꾩냽 ?숈옉?⑸땲??
+
+## 濡쒖뺄 ?ㅽ뻾
+
+```powershell
+# 諛깆뿏??(PowerShell ?ㅽ뻾?뺤콉??npm??留됲엳硫?npm.cmd/npx.cmd ?ъ슜)
+cd backend
+npm.cmd install
+Copy-Item .env.example .env     # DATABASE_URL / JWT_SECRET 梨꾩슦湲?
+npx.cmd prisma generate
+npx.cmd prisma migrate dev --name init
+npm.cmd run seed                # ?곕え 怨꾩젙 + ?섑뵆 移대뱶
+npm.cmd run dev                 # http://localhost:3000
+
+# 寃뚯씠??
+npm.cmd test                    # ?⑥쐞 ?뚯뒪??(DB 遺덊븘??
+npm.cmd run type                # tsc --noEmit
+npm.cmd run smoke               # ?쒕쾭 耳쒕몦 梨? ?꾩껜 ?쇱씠?꾩궗?댄겢 ?듯빀 ?ㅻえ??
+
+# ?꾨줎?? 猷⑦듃瑜??꾨Т ?뺤쟻 ?쒕쾭濡??쒕튃 (api.config.js媛 localhost:3000???먮룞 吏紐?
+```
+
+?꾨줎???먯껜 鍮뚮뱶(Tailwind/Lucide ?ъ깮??? ?뺤쟻 寃利??ㅽ겕由쏀듃??[BUILD.md](BUILD.md)? 猷⑦듃 `package.json`??`check:js` / `static:validate-*` / `smoke` ?ㅽ겕由쏀듃瑜?李멸퀬?섏꽭?? ?붾㈃ 援ъ“ ?곸꽭??`app/` ?섏쐞 README???덉뒿?덈떎.
+
+## 諛고룷 ?붿빟
+
+- **Render Web Service**: Root Directory `backend`, Build `npm install && npx prisma generate && npx prisma migrate deploy && npm run build`, Start `npm start`, Health `/api/health`. Env: `DATABASE_URL`, `DATABASE_SSL`, `JWT_SECRET`, `NODE_VERSION`, `CORS_ORIGIN`(?꾨줎???ㅻ━吏꾨쭔 ?덉슜).
+- **Vercel**: ?뺤쟻 諛고룷(鍮뚮뱶 ?놁쓬). 諛고룷蹂몄? `index.html`??`<meta name="ordo-api-base">`濡?諛깆뿏???ㅻ━吏꾩쓣 吏紐?
+- ?곸꽭 ?덉감: [backend/DEPLOY.md](backend/DEPLOY.md)
+
+## ?먮낯怨쇱쓽 愿怨?
+
+???덊룷??[ordospace-sprint5](https://github.com/magus81818-bit/ordospace-sprint5) ?뺤쟻 ?꾨줈?좏??낆쓽 **由щ퉴??*?낅땲?? ?먮낯 ?덊룷쨌諛고룷??蹂寃쏀븯吏 ?딆븯?듬땲??
+
