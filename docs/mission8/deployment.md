@@ -20,5 +20,8 @@
 ### Env (이름만)
 DATABASE_URL, DATABASE_SSL, JWT_SECRET, NODE_ENV, CORS_ORIGIN, TOSS_MODE, TOSS_API_BASE_URL, TOSS_SECRET_KEY, TOSS_CLIENT_KEY
 
-### 남은 설정
-`TOSS_SECRET_KEY` / `TOSS_CLIENT_KEY` (test only) — 대시보드에서 설정
+### Toss test keys — DONE
+- 문서용 API 개별 연동 테스트 키(`test_ck_*` / `test_sk_*`)를 Render env에 설정
+- 키 값은 Git에 커밋하지 않음
+- `GET /api/payments/config` → `configured: true`, `mode: test`
+- 배포 확인 deploy: `dep-d9m6erqjnfac73boh0mg` (live)

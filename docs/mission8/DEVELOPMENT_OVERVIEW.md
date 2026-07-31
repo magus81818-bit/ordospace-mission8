@@ -94,7 +94,7 @@ catalog 다중 상품, webhook reconciliation, ADMIN 결제 조회 — adapter·
 
 ## 위험·외부 의존
 
-- Toss test keys (NEEDS_EXTERNAL_CREDENTIAL)
+- Toss test keys — Render 설정·sandbox·PAID E2E 완료 (실청구 없음)
 - gh CLI / Render / Vercel auth
 - PostgreSQL 격리 DB (Round 4)
 
