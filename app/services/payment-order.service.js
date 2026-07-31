@@ -11,7 +11,10 @@ window.ORDO_PAYMENT_ORDER = (function(){
   };
 
   function api(){ return window.ORDO_API; }
-  function hasBackend(){ return !!(window.ORDO_API_BASE && String(window.ORDO_API_BASE).trim()); }
+  function hasBackend(){
+    if (location.protocol === 'file:') return false;
+    return !!(window.ORDO_API_BASE && String(window.ORDO_API_BASE).trim());
+  }
 
   function projectId(){
     if (window.ORDO_PAYMENT_PROJECT_ID != null) return Number(window.ORDO_PAYMENT_PROJECT_ID);
