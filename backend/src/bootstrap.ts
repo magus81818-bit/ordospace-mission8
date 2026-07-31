@@ -1,13 +1,21 @@
 import { createAuthService } from "./application/services/auth.service.js";
 import { createUserService } from "./application/services/user.service.js";
 import { createModuleCardService } from "./application/services/module-card.service.js";
+import { createPaymentOrderService } from "./application/services/payment-order.service.js";
 import { createAuthController } from "./inbound/controllers/auth.controller.js";
 import { createUserController } from "./inbound/controllers/user.controller.js";
 import { createModuleCardController } from "./inbound/controllers/module-card.controller.js";
+import {
+  createPaymentOrderController,
+  createPaymentsConfigRouter,
+} from "./inbound/controllers/payment-order.controller.js";
 import { createAuthMiddleware } from "./inbound/middlewares/auth.middleware.js";
 import { createUserRepo } from "./outbound/repos/user.repo.js";
 import { createModuleCardRepo } from "./outbound/repos/module-card.repo.js";
 import { createActivityRepo } from "./outbound/repos/activity.repo.js";
+import { createPaymentOrderRepo } from "./outbound/repos/payment-order.repo.js";
+import { createTossPaymentGateway } from "./outbound/externals/toss-payment.gateway.js";
+import { readPaymentConfig } from "./shared/config/payment.config.js";
 import { bcryptUtil } from "./shared/utils/bcrypt.util.js";
 import { signJwt, jwtUtil } from "./shared/utils/jwt.util.js";
 
@@ -39,6 +47,14 @@ export const bootstrap = () => {
     createActivity,
   );
 
+  const paymentOrderRepo = createPaymentOrderRepo();
+  const paymentConfig = readPaymentConfig();
+  const tossGateway = createTossPaymentGateway(paymentConfig);
+  const paymentOrderService = createPaymentOrderService(
+    paymentOrderRepo,
+    tossGateway,
+  );
+
   // 3) inbound
   const authMiddleware = createAuthMiddleware(jwtUtil.verifyJwt);
   const { router: authRouter } = createAuthController(signIn, signUp);
@@ -47,6 +63,19 @@ export const bootstrap = () => {
     moduleCardService,
     authMiddleware,
   );
+  const { router: paymentOrderRouter } = createPaymentOrderController(
+    paymentOrderService,
+    authMiddleware,
+  );
+  const { router: paymentsConfigRouter } = createPaymentsConfigRouter(
+    paymentOrderService,
+  );
 
-  return { authRouter, userRouter, moduleCardRouter };
+  return {
+    authRouter,
+    userRouter,
+    moduleCardRouter,
+    paymentOrderRouter,
+    paymentsConfigRouter,
+  };
 };
