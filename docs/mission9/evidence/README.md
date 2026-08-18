@@ -30,8 +30,8 @@ ORDOSPACE_MISSION9_1_EVIDENCE/
     traffic-acquisition.png
     sample.csv
   06_utm-promotion/
-    kakao-post.png
-    email-self-send.png
+    naver-blog-post.png
+    instagram-post.png
     github-link-post.png
     published-links.md
   QA_RECORD.md
