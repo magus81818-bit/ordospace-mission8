@@ -31,8 +31,8 @@ ORDOSPACE_MISSION9_1_EVIDENCE/
     sample.csv
   06_utm-promotion/
     kakao-post.png
-    naver-blog-post.png
-    instagram-post.png
+    email-self-send.png
+    github-link-post.png
     published-links.md
   QA_RECORD.md
 ```
@@ -44,4 +44,3 @@ ORDOSPACE_MISSION9_1_EVIDENCE/
 - 성공 화면만 모으지 말고 테스트 일시와 시나리오를 `QA_RECORD.md`에 연결한다.
 - CSV는 최소 5개 P0 이벤트와 UTM 속성, 환경 구분을 포함하되 이메일 등 개인정보가 없어야 한다.
 - 실제 홍보 게시물은 게시 날짜, 채널, 링크 또는 공개 범위를 확인할 수 있어야 한다.
-
