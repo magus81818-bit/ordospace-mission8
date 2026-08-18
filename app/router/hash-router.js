@@ -93,6 +93,7 @@ function scrollLandingSection(hash, options = {}) {
       window.dispatchEvent(new Event('ordo:landing-nav-sync'));
     }, options.instant ? 120 : 1100);
   });
+  window.ORDO_ANALYTICS?.trackScreenView('landing', { sectionName: raw, isPublic: true });
   return true;
 }
 
@@ -277,6 +278,8 @@ function navigate(hash){
   if (id === 'profile') {
     applyProfileEntryTab();
   }
+
+  window.ORDO_ANALYTICS?.trackScreenView(id, { isPublic: AUTH_OFF.has(id) });
 
   // 드롭다운 닫기
   document.getElementById('notifPanel')?.classList.add('hidden');

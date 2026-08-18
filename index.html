@@ -6,6 +6,9 @@
 <!-- 배포된 프론트가 사용할 백엔드(Render) 오리진. 로컬은 app/config/api.config.js가 localhost로 처리. -->
 <!-- Mission 8: 신규 격리 Render API -->
 <meta name="ordo-api-base" content="https://ordospace-mission8-api.onrender.com" />
+<!-- Mission 9: public identifiers only. Keep empty until the matching accounts/containers are created. -->
+<meta name="ordo-gtm-container-id" content="" />
+<meta name="ordo-analytics-environment" content="production" />
 <title>ORDOSPACE — 멀티 역할 워크스페이스 (v3.0)</title>
 
 <!--
@@ -3374,6 +3377,7 @@
 <script src="./app/config/app.config.js"></script>
 <script src="./app/config/api.config.js"></script>
 <script src="./app/services/api.service.js"></script>
+<script src="./app/services/analytics.service.js"></script>
 <script src="./app/services/session.service.js"></script>
 <script src="./app/layout/app-shell.js"></script>
 <script src="./app/screens/auth.screen.js"></script>

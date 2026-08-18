@@ -36,10 +36,12 @@
     "db:seed-module-cards": "node tools/seed-module-cards-db.cjs",
     "static:validate-lifecycle": "node tools/validate-static-module-lifecycle.cjs",
     "static:validate-payment": "node tools/validate-payment-ui-contract.cjs",
+    "static:validate-analytics": "node tools/validate-analytics-contract.cjs",
     "static:validate-components": "node tools/validate-static-components.cjs",
     "smoke:lifecycle": "node app/qa/smoke-check.js --runtime-qa --lifecycle-qa",
     "smoke": "node app/qa/smoke-check.js --runtime-qa",
-    "test:mission8": "npm run build && npm run check:js && npm run static:validate-payment && npm run static:validate-components && npm run static:validate-lifecycle && npm run smoke"
+    "test:mission8": "npm run build && npm run check:js && npm run static:validate-payment && npm run static:validate-components && npm run static:validate-lifecycle && npm run smoke",
+    "test:mission9-prep": "npm run check:js && npm run static:validate-analytics && npm run smoke"
   },
   "dependencies": {
     "lucide": "1.22.0",

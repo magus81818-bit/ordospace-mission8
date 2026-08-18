@@ -147,16 +147,19 @@ window.syncAuthRoute = function syncAuthRoute() {
     const password = document.getElementById('loginPw')?.value || '';
     const multi = document.getElementById('devMultiRoleToggle')?.checked;
     const svc = window.ORDO_SESSION_SERVICE;
+    window.ORDO_ANALYTICS?.track('login_submitted', { login_method: 'password' });
 
     // 데모(mock) 폴백: 서버가 없거나 file:// 또는 멀티롤 데모일 때의 기존 경로 보존.
     const runMockLogin = () => {
       if (/fail|wrong|invalid/i.test(email)) {
+        window.ORDO_ANALYTICS?.track('login_failed', { login_method: 'password', failure_code: 'invalid_demo_account', is_mock: true });
         loginError?.classList.remove('hidden');
         setLoginLoading(false);
         return;
       }
       const resolvedRole = svc.resolveRoleFromAccount(email);
       svc.completeMockLogin(email, resolvedRole, multi);
+      window.ORDO_ANALYTICS?.track('login_succeeded', { login_method: 'password', user_role: resolvedRole, is_mock: true });
       setLoginLoading(false);
     };
 
@@ -168,9 +171,13 @@ window.syncAuthRoute = function syncAuthRoute() {
     }
 
     svc.completeRealLogin(email, password)
-      .then(() => setLoginLoading(false))
+      .then((session) => {
+        window.ORDO_ANALYTICS?.track('login_succeeded', { login_method: 'password', user_role: session?.role, is_mock: false });
+        setLoginLoading(false);
+      })
       .catch((err) => {
         if (err && err.status === 401) {
+          window.ORDO_ANALYTICS?.track('login_failed', { login_method: 'password', failure_code: 'invalid_credentials', is_mock: false });
           // 자격/권한 실패: 인라인 에러 표시, 세션 미생성 (mock 폴백 금지)
           loginError?.classList.remove('hidden');
           setLoginLoading(false);
@@ -272,6 +279,7 @@ window.syncAuthRoute = function syncAuthRoute() {
       const resolvedRole = window.ORDO_SESSION_SERVICE.resolveRoleFromAccount(email);
       const multi = document.getElementById('devMultiRoleToggle')?.checked;
       window.ORDO_SESSION_SERVICE.completeMockLogin(email, resolvedRole, multi);
+      window.ORDO_ANALYTICS?.track('login_succeeded', { login_method: provider, user_role: resolvedRole, is_mock: true });
       window.ordoToast?.(provider === 'naver' ? '네이버 계정으로 로그인했습니다' : 'Google 계정으로 로그인했습니다', 'ok');
     });
   });

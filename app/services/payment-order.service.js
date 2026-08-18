@@ -93,10 +93,12 @@ window.ORDO_PAYMENT_ORDER = (function(){
   async function startCheckout(onStatus){
     if (inFlight) return;
     if (!hasBackend()) {
+      window.ORDO_ANALYTICS?.track('payment_failed', { project_id: projectId(), product_code: 'PROJECT_KICKOFF', failure_stage: 'precheck', failure_code: 'backend_unavailable' });
       onStatus && onStatus({ phase: 'error', message: '백엔드 API가 연결되지 않았습니다.' });
       return;
     }
     inFlight = true;
+    window.ORDO_ANALYTICS?.track('payment_started', { project_id: projectId(), product_code: 'PROJECT_KICKOFF' });
     onStatus && onStatus({ phase: 'loading', message: '주문을 생성하는 중입니다…' });
     try {
       var cfg = await fetchConfig();
@@ -105,10 +107,12 @@ window.ORDO_PAYMENT_ORDER = (function(){
       }
       var orderRes = await createOrder();
       var order = orderRes.order;
+      window.ORDO_ANALYTICS?.track('payment_order_created', { project_id: projectId(), product_code: 'PROJECT_KICKOFF', amount: order.amount, currency: order.currency || 'KRW' });
       onStatus && onStatus({ phase: 'sdk', message: '결제창을 여는 중입니다…', order: order });
       await loadTossSdk();
       var toss = window.TossPayments(cfg.clientKey);
       var payment = toss.payment({ customerKey: 'client-' + (window.ORDO_SESSION_SERVICE?.getUserId?.() || 'guest') });
+      window.ORDO_ANALYTICS?.track('payment_checkout_opened', { project_id: projectId(), product_code: 'PROJECT_KICKOFF', amount: order.amount, currency: order.currency || 'KRW' });
       await payment.requestPayment({
         method: 'CARD',
         amount: { currency: order.currency || 'KRW', value: order.amount },
@@ -118,6 +122,7 @@ window.ORDO_PAYMENT_ORDER = (function(){
         failUrl: buildCallbackUrl('fail')
       });
     } catch (e) {
+      window.ORDO_ANALYTICS?.track('payment_failed', { project_id: projectId(), product_code: 'PROJECT_KICKOFF', failure_stage: 'checkout_start', failure_code: 'checkout_start_failed' });
       onStatus && onStatus({ phase: 'error', message: e.message || '결제를 시작할 수 없습니다.' });
     } finally {
       inFlight = false;
@@ -139,16 +144,20 @@ window.ORDO_PAYMENT_ORDER = (function(){
 
     if (result === 'success') {
       if (!snapshot.paymentKey || !snapshot.orderId || !/^\d+$/.test(String(snapshot.amount || ''))) {
+        window.ORDO_ANALYTICS?.track('payment_failed', { product_code: 'PROJECT_KICKOFF', failure_stage: 'callback_validation', failure_code: 'invalid_callback' });
         stripPaymentQuery();
         return { ok: false, message: '결제 승인 정보가 올바르지 않습니다.' };
       }
       try {
+        window.ORDO_ANALYTICS?.track('payment_confirmation_started', { product_code: 'PROJECT_KICKOFF', amount: Number(snapshot.amount), currency: 'KRW' });
         if (hasBackend() && api().getToken()) {
           await confirmOrder(snapshot.orderId, snapshot.paymentKey, Number(snapshot.amount));
         }
         stripPaymentQuery();
+        window.ORDO_ANALYTICS?.track('payment_completed', { project_id: projectId(), product_code: 'PROJECT_KICKOFF', amount: Number(snapshot.amount), currency: 'KRW' });
         return { ok: true, message: '프로젝트 킥오프 결제가 완료되었습니다.' };
       } catch (e) {
+        window.ORDO_ANALYTICS?.track('payment_failed', { project_id: projectId(), product_code: 'PROJECT_KICKOFF', failure_stage: 'confirmation', failure_code: 'confirmation_failed' });
         stripPaymentQuery();
         return { ok: false, message: e.message || '결제 승인에 실패했습니다.' };
       }
@@ -156,6 +165,7 @@ window.ORDO_PAYMENT_ORDER = (function(){
 
     if (result === 'fail') {
       var userMsg = FAIL_MESSAGES[snapshot.code] || '결제에 실패했습니다. 다시 시도해 주세요.';
+      window.ORDO_ANALYTICS?.track('payment_failed', { project_id: projectId(), product_code: 'PROJECT_KICKOFF', failure_stage: 'toss_callback', failure_code: snapshot.code || 'pay_failed' });
       try {
         if (hasBackend() && api().getToken() && snapshot.orderId && params.get('orderId')) {
           await reportFailure(snapshot.orderId, snapshot.code || 'PAY_FAILED', snapshot.message || userMsg);
