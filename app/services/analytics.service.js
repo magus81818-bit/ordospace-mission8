@@ -19,6 +19,8 @@ window.ORDO_ANALYTICS = (function(){
   });
   var COMMON_PROPERTIES = ['environment','utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
   var initialized = false;
+  var amplitudeReady = false;
+  var amplitudeQueue = [];
 
   function readMeta(name){
     return String(document.querySelector('meta[name="' + name + '"]')?.content || '').trim();
@@ -89,7 +91,45 @@ window.ORDO_ANALYTICS = (function(){
     };
     if (context.analytics_user_id) payload.analytics_user_id = context.analytics_user_id;
     window.dataLayer.push(payload);
+    sendToAmplitude(payload);
     window.dispatchEvent(new CustomEvent('ordo:analytics-event', { detail: payload }));
+    return true;
+  }
+
+  function amplitudeProperties(payload){
+    var result = Object.assign({}, payload.event_properties || {}, payload.user_properties || {});
+    if (payload.analytics_user_id) result.analytics_user_id = payload.analytics_user_id;
+    return result;
+  }
+
+  function flushAmplitudeQueue(){
+    if (!amplitudeReady || !window.amplitude || typeof window.amplitude.track !== 'function') return;
+    while (amplitudeQueue.length) {
+      var payload = amplitudeQueue.shift();
+      window.amplitude.track(payload.event_name, amplitudeProperties(payload));
+    }
+  }
+
+  function sendToAmplitude(payload){
+    amplitudeQueue.push(payload);
+    flushAmplitudeQueue();
+  }
+
+  function loadAmplitude(){
+    var key = readMeta('ordo-amplitude-api-key');
+    if (!/^[a-f0-9]{32}$/i.test(key)) return false;
+    if (document.querySelector('script[data-ordo-amplitude]')) return true;
+    var script = document.createElement('script');
+    script.async = true;
+    script.dataset.ordoAmplitude = 'true';
+    script.src = 'https://cdn.amplitude.com/script/' + encodeURIComponent(key) + '.js';
+    script.addEventListener('load', function(){
+      if (!window.amplitude || typeof window.amplitude.init !== 'function') return;
+      window.amplitude.init(key, { fetchRemoteConfig: true, autocapture: false });
+      amplitudeReady = true;
+      flushAmplitudeQueue();
+    }, { once: true });
+    document.head.appendChild(script);
     return true;
   }
 
@@ -145,6 +185,7 @@ window.ORDO_ANALYTICS = (function(){
     initialized = true;
     window.dataLayer = window.dataLayer || [];
     loadGtm();
+    loadAmplitude();
     bindLandingCtas();
   }
 
